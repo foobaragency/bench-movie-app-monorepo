@@ -1,0 +1,52 @@
+---
+export interface NavItem {
+  uri: string;
+  label: string;
+  active?: boolean;
+}
+
+export interface Props {
+  navItems: NavItem[];
+}
+
+const anchorClassList =
+  "rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 hover:text-white";
+
+const { navItems } = Astro.props;
+---
+
+<header>
+  <nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="inset-y-0 left-0 flex items-center">
+          <div
+            class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
+          >
+            <div class="sm:ml-6 sm:block">
+              <div class="flex space-x-4">
+                {
+                  navItems.map((item) => (
+                    <a
+                      href={item.uri}
+                      aria-current="page"
+                      class:list={[
+                        ...anchorClassList.split(" "),
+                        { "bg-gray-900 text-white": item.active },
+                        { "text-gray-300": !item.active },
+                      ]}
+                    >
+                      {item.label}
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style></style>

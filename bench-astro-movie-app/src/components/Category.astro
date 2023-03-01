@@ -1,0 +1,36 @@
+---
+import MovieCard from "./MovieCard.astro";
+
+export interface Movie {
+  id: string;
+  title: string;
+  release_date: string;
+  poster_path: string;
+}
+[];
+
+export interface Props {
+  movies: Movie[];
+  title: string;
+}
+
+const { title, movies } = Astro.props;
+---
+
+<h2 class="text:xl mb-3 font-bold lg:text-3xl">{title}</h2>
+<div style="overflow: scroll hidden">
+  <div style="min-width: 100%; display: table;">
+    <div class="flex flex-nowrap pb-2 [&>*]:mr-2 [&>*]:w-48">
+      {
+        movies.map((movie) => (
+          <MovieCard
+            id={movie.id}
+            releaseDate={movie.release_date}
+            title={movie.title}
+            poster={movie.poster_path}
+          />
+        ))
+      }
+    </div>
+  </div>
+</div>

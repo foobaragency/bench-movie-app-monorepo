@@ -1,0 +1,93 @@
+---
+import backgroundCover from "/search-bg-blur.webp";
+import Header from "../components/Header.astro";
+import Search from "../components/Search.astro";
+import Category, { Movie } from "../components/Category.astro";
+import Layout from "../layouts/Layout.astro";
+
+const popularRequest = await fetch(
+  "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=061b5b5397826fffc37bcaad1cc6814f"
+);
+
+const upcomingRequest = await fetch(
+  "https://api.themoviedb.org/3/movie/upcoming?page=1&sort_by=popularity.desc&api_key=061b5b5397826fffc37bcaad1cc6814f"
+);
+
+const popular: Movie[] = (await popularRequest.json()).results;
+const upcoming: Movie[] = (await upcomingRequest.json()).results;
+---
+
+<Layout
+  title="Welcome to TMDB - 2nd Largest Movie Database (Not to piss off IMDB)"
+>
+  <main>
+    <Header
+      navItems={[
+        { label: "Dashboard", uri: "#", active: true },
+        { label: "Teams", uri: "#" },
+        { label: "Projects", uri: "#" },
+        { label: "Calendar", uri: "#" },
+      ]}
+    />
+    <div
+      class="mb-3 flex h-80 flex-col justify-center bg-cover px-10"
+      style={{ "background-image": `url(${backgroundCover})` }}
+    >
+      <div class="text-3xl font-bold text-slate-50">
+        Millions of movie for you to discover and explore!
+      </div>
+
+      <form method="get" class="mt-4" action="/search">
+        <Search />
+      </form>
+    </div>
+
+    <div class="px-1.5">
+      <Category title={`Most popular 🔥`} movies={popular} />
+      <Category title={`Upcoming 👀`} movies={upcoming} />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0;
+  }
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+  }
+  .bg-cover {
+    background-image: url(${backgroundCover});
+  }
+  .instructions {
+    line-height: 1.6;
+    margin: 1rem 0;
+    border: 1px solid rgba(var(--accent), 25%);
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.4rem;
+  }
+  .instructions code {
+    font-size: 0.875em;
+    font-weight: bold;
+    background: rgba(var(--accent), 12%);
+    color: rgb(var(--accent));
+    border-radius: 4px;
+    padding: 0.3em 0.45em;
+  }
+  .instructions strong {
+    color: rgb(var(--accent));
+  }
+  .link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
+</style>
