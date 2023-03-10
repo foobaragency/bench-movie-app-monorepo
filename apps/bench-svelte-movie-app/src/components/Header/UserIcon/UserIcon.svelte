@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { userSessionId } from '../../../userStore';
 	import UserMenu from './UserMenu.svelte';
 
 	let showUserMenu = false;
@@ -19,6 +17,9 @@
 		aria-expanded="false"
 		aria-haspopup="true"
 		on:click={handleToggleUserMenu}
+		on:blur={() => {
+			showUserMenu = false;
+		}}
 	>
 		<span class="sr-only">Open user menu</span>
 		<svg

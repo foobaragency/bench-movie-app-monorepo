@@ -21,10 +21,6 @@ export const load: LayoutServerLoad = async ({
 		`https://api.themoviedb.org/3/movie/${params.slug}/credits?api_key=061b5b5397826fffc37bcaad1cc6814f`
 	);
 
-	const request_token = url.searchParams.get('request_token');
-	const sessionId = cookies.get('sessionId');
-	console.log('passed a token');
-
 	return {
 		movie: await movieDetails.json(),
 		credits: await credits.json(),

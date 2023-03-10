@@ -1,5 +1,14 @@
 <script lang="ts">
+	import { userSessionId } from '@/userStore';
 	import UserIcon from './UserIcon';
+
+	const handleLoginClick = async () => {
+		const authResponse = await fetch(
+			'https://api.themoviedb.org/3/authentication/token/new?api_key=061b5b5397826fffc37bcaad1cc6814f'
+		);
+		const authData = await authResponse.json();
+		window.location.href = `https://www.themoviedb.org/authenticate/${authData.request_token}?redirect_to=${window.location}`;
+	};
 </script>
 
 <header>
@@ -116,7 +125,15 @@
 					</button>
 
 					<div class="ml-3">
-						<UserIcon />
+						{#if $userSessionId}
+							<UserIcon />
+						{:else}
+							<button
+								class="block rounded-md px-3 py-2 text-base font-medium
+              text-gray-300 hover:bg-gray-700 hover:text-white"
+								on:click={handleLoginClick}>Login</button
+							>
+						{/if}
 					</div>
 				</div>
 			</div>
