@@ -1,43 +1,20 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { userSessionId } from '../../../userStore';
-
-	const request_token = $page.url.searchParams.get('request_token');
-	if (request_token) {
-		fetch(
-			'https://api.themoviedb.org/3/authentication/session/new?api_key=061b5b5397826fffc37bcaad1cc6814f',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ request_token })
-			}
-		)
-			.then((response) => response.json())
-			.then((json) => userSessionId.set(json.session_token));
-	}
-	$: console.log($userSessionId);
+	import UserMenu from './UserMenu.svelte';
 
 	let showUserMenu = false;
 
 	const handleToggleUserMenu = () => {
 		showUserMenu = !showUserMenu;
 	};
-
-	const handleLoginClick = async () => {
-		const authResponse = await fetch(
-			'https://api.themoviedb.org/3/authentication/token/new?api_key=061b5b5397826fffc37bcaad1cc6814f'
-		);
-		const authData = await authResponse.json();
-		window.location.href = `https://www.themoviedb.org/authenticate/${authData.request_token}?redirect_to=${window.location}`;
-	};
 </script>
 
 <div class="relative">
 	<button
 		type="button"
-		class="flex rounded-full text-sm text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+		class="flex rounded-full text-sm text-gray-400 hover:text-white
+    focus:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 		id="user-menu-button"
 		aria-expanded="false"
 		aria-haspopup="true"
@@ -60,10 +37,6 @@
 		</svg>
 	</button>
 	{#if showUserMenu}
-		<div class="absolute bg-white rounded-lg shadow-md mt-2">
-			<button type="button" class="p-3 rounded-lg hover:bg-gray-200" on:click={handleLoginClick}>
-				Login
-			</button>
-		</div>
+		<UserMenu />
 	{/if}
 </div>
