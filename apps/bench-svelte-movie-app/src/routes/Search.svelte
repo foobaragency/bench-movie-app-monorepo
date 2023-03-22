@@ -6,6 +6,8 @@
 
 	let autocompleteResults: SearchSuggestion[] = [];
 
+	let showAutoComplete = false;
+
 	const handleSearchInputChange = async (event: Event) => {
 		const response = await fetch(
 			`https://api.themoviedb.org/3/search/movie?query=${
@@ -44,8 +46,15 @@
 		{placeholder}
 		required
 		on:input={handleSearchInputChange}
+		on:focus={() => {
+			showAutoComplete = true;
+		}}
+		on:blur={(event) => {
+			event.stopPropagation();
+			showAutoComplete = false;
+		}}
 	/>
-	{#if autocompleteResults.length > 0}
+	{#if autocompleteResults.length > 0 && showAutoComplete}
 		<div class="w-full bg-gray-50 absolute flex flex-col rounded-lg shadow-md">
 			{#each autocompleteResults as result}
 				<a
