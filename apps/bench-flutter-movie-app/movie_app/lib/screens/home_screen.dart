@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/layout/movie_app_scaffold.dart';
 import 'package:movie_app/screens/movie_details_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -6,10 +7,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Screen'),
-      ),
+    return MovieAppScaffold(
+      title: 'Home Screen',
       body: Center(
         child: ElevatedButton(
           child: const Text('Open route'),
@@ -22,6 +21,7 @@ class HomeScreen extends StatelessWidget {
           },
         ),
       ),
+      showsCategoryDrawer: true,
     );
   }
 }
