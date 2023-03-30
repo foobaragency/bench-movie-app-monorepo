@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/api/fetch_upcoming_movies.dart';
 import 'package:movie_app/screens/home_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: ".env");
+  final response = await fetchUpcomingMovies();
+
+  //TODO: save response in a state
+
   runApp(const MyApp());
 }
 

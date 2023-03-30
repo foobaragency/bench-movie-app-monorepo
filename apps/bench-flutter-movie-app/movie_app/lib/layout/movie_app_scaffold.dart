@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:movie_app/widgets/movie_category_drawer.dart';
 
 class MovieAppScaffold extends StatelessWidget {
