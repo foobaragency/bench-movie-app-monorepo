@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/api/fetch_upcoming_movies.dart';
-import 'package:movie_app/screens/home_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:movie_app/screens/home_screen.dart';
+
+final helloWorldProvider = Provider((_) => 'Hello world');
 
 Future main() async {
   await dotenv.load(fileName: ".env");
-  final response = await fetchUpcomingMovies();
 
-  //TODO: save response in a state
-
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: const HomeScreen(title: "Movie App"),
     );
   }
 }

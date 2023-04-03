@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:movie_app/layout/movie_app_scaffold.dart';
 import 'package:movie_app/providers/movie_list_provider.dart';
 import 'package:movie_app/screens/movie_details_screen.dart';
 
-class HomeScreen extends HookConsumerWidget {
-  final String title;
-
-  const HomeScreen({super.key, this.title = "Home Screen"});
+class TestMovieListScreen extends HookConsumerWidget {
+  const TestMovieListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(moviesListProvider.notifier).fetchNowPlayingMovies();
-      });
-    }, []);
-
     final asyncMovieListPage = ref.watch(moviesListProvider);
 
     return MovieAppScaffold(
-      title: title,
+      title: "Test Movie List Screen",
       body: asyncMovieListPage.when(
         data: (data) => ListView.builder(
           itemCount: data.movies.length,
@@ -50,7 +41,6 @@ class HomeScreen extends HookConsumerWidget {
           child: CircularProgressIndicator(),
         ),
       ),
-      showsCategoryDrawer: true,
     );
   }
 }
