@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:movie_app/layout/movie_app_scaffold.dart';
 import 'package:movie_app/providers/movie_list_provider.dart';
 import 'package:movie_app/screens/movie_details_screen.dart';
+import 'package:movie_app/widgets/movie_list_item.dart';
 
 class HomeScreen extends HookConsumerWidget {
   final String title;
@@ -23,25 +24,29 @@ class HomeScreen extends HookConsumerWidget {
     return MovieAppScaffold(
       title: title,
       body: asyncMovieListPage.when(
-        data: (data) => ListView.builder(
-          itemCount: data.movies.length,
-          itemBuilder: (context, index) {
-            final movie = data.movies[index];
-
-            return ListTile(
-              title: Text(movie.title),
-              subtitle: Text(movie.releaseDate),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        MovieDetailsScreen(title: movie.title),
-                  ),
-                );
-              },
-            );
-          },
+        data: (data) => GridView.count(
+          crossAxisCount: 2,
+          children: data.movies.map<Widget>(
+            (movie) {
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          MovieDetailsScreen(title: movie.title),
+                    ),
+                  );
+                },
+                splashColor: Colors.lightBlueAccent,
+                child: MovieListItem(
+                  title: movie.title,
+                  releaseDate: movie.releaseDate,
+                  posterImage: movie.imageUrl,
+                ),
+              );
+            },
+          ).toList(),
         ),
         error: (error, stackTrace) => Center(
           child: Text("Error loading $error"),
