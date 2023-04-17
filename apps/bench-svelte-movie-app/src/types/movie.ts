@@ -1,4 +1,4 @@
-import type { CastMember, CrewMember } from "./castAndCrew";
+import type { CastMember, CrewMember } from './castAndCrew';
 
 export type Movie = {
   backdrop_path: string;
@@ -24,8 +24,8 @@ export type MovieDetails = {
 };
 
 export type MovieDisplay = {
-  id: string;
+  id: number;
   title: string;
   poster_path: string;
   release_date: string;
-}
+};

@@ -1,10 +1,50 @@
 <script lang="ts">
-	import type { MovieDisplay } from '@/types/movie';
+	import type { Movie, MovieDisplay } from '@/types/movie';
 	import HeartIcon from './HeartIcon.svelte';
+	import { userSessionId, userAccount, userWatchlist } from '@/userStore';
 
 	export let movie: MovieDisplay;
 
 	const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
+
+	$: isOnWatchlist = $userWatchlist?.some((other: Movie) => other.id === movie.id);
+
+	const handleWatchlistClick = async () => {
+		if (!$userSessionId || !$userAccount) {
+			const authResponse = await fetch(
+				'https://api.themoviedb.org/3/authentication/token/new?api_key=061b5b5397826fffc37bcaad1cc6814f'
+			);
+			const authData = await authResponse.json();
+			window.location.href = `https://www.themoviedb.org/authenticate/${authData.request_token}?redirect_to=${window.location}`;
+			return;
+		}
+
+		const addToWatchlistResponse = await fetch(
+			`https://api.themoviedb.org/3/account/${$userAccount.id}/watchlist?api_key=061b5b5397826fffc37bcaad1cc6814f&session_id=${$userSessionId}`,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					media_type: 'movie',
+					media_id: movie.id,
+					watchlist: !isOnWatchlist
+				})
+			}
+		);
+
+		if (!addToWatchlistResponse.ok) {
+			return;
+		}
+
+		if (isOnWatchlist) {
+			$userWatchlist = $userWatchlist?.filter((watchlistMovie) => watchlistMovie.id !== movie.id);
+		} else {
+			$userWatchlist?.push(movie as Movie);
+			$userWatchlist = $userWatchlist;
+		}
+	};
 </script>
 
 <div class="relative">
@@ -42,9 +82,9 @@
 		</figure>
 	</a>
 	<button
-		on:click|stopPropagation={() => console.log('add to liked')}
+		on:click|stopPropagation={handleWatchlistClick}
 		class="absolute top-1 right-1 text-gray-300 hover:text-white"
 	>
-		<HeartIcon />
+		<HeartIcon filled={isOnWatchlist} />
 	</button>
 </div>
