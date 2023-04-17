@@ -17,9 +17,6 @@
 		aria-expanded="false"
 		aria-haspopup="true"
 		on:click={handleToggleUserMenu}
-		on:blur={() => {
-			showUserMenu = false;
-		}}
 	>
 		<span class="sr-only">Open user menu</span>
 		<svg
