@@ -1,6 +1,7 @@
 <script lang="ts">
 	import UserMenu from './UserMenu.svelte';
 	import { userAccount } from '@/userStore';
+	import type { FocusEventHandler } from 'svelte/elements';
 
 	let showUserMenu = false;
 
@@ -9,9 +10,16 @@
 	};
 
 	const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
+
+	// handle user menu focus loss
+	const handleFocusOut: FocusEventHandler<HTMLElement> = ({ relatedTarget, currentTarget }) => {
+		console.log(relatedTarget, currentTarget);
+		if (relatedTarget instanceof HTMLElement && currentTarget.contains(relatedTarget)) return;
+		showUserMenu = false;
+	};
 </script>
 
-<div class="relative">
+<div class="relative" on:focusout={handleFocusOut}>
 	<button
 		type="button"
 		class="flex rounded-full text-sm text-gray-400 hover:text-white
