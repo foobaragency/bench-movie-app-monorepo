@@ -1,7 +1,6 @@
 <script lang="ts">
 	import UserMenu from './UserMenu.svelte';
 	import { userAccount } from '@/userStore';
-	console.log($userAccount);
 
 	let showUserMenu = false;
 
@@ -21,9 +20,6 @@
 		aria-expanded="false"
 		aria-haspopup="true"
 		on:click={handleToggleUserMenu}
-		on:blur={() => {
-			showUserMenu = false;
-		}}
 	>
 		<span class="sr-only">Open user menu</span>
 		{#if $userAccount?.avatar.tmdb.avatar_path}
