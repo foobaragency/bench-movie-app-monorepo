@@ -85,6 +85,6 @@
 		on:click|stopPropagation={handleWatchlistClick}
 		class="absolute top-1 right-1 text-gray-300 hover:text-white"
 	>
-		<HeartIcon filled={isOnWatchlist} />
+		<HeartIcon filled={isOnWatchlist || false} />
 	</button>
 </div>
