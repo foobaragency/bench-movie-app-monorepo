@@ -34,15 +34,18 @@ class HomeScreen extends HookConsumerWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          MovieDetailsScreen(title: movie.title),
+                          MovieDetailsScreen(title: movie.title, id: movie.id),
                     ),
                   );
                 },
                 splashColor: Colors.lightBlueAccent,
-                child: MovieListItem(
-                  title: movie.title,
-                  releaseDate: movie.releaseDate,
-                  posterImage: movie.imageUrl,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: MovieListItem(
+                    title: movie.title,
+                    releaseDate: movie.releaseDate,
+                    posterImage: movie.imageUrl,
+                  ),
                 ),
               );
             },

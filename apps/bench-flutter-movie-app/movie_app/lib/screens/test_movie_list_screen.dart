@@ -27,7 +27,7 @@ class TestMovieListScreen extends HookConsumerWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        MovieDetailsScreen(title: movie.title),
+                        MovieDetailsScreen(title: movie.title, id: movie.id),
                   ),
                 );
               },
