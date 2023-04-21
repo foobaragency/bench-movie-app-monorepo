@@ -1,6 +1,13 @@
 <script>
-	const handleLogout = () => {
-		alert('not implemented yet');
+	import { goto } from '$app/navigation';
+	import { userAccount, userSessionId } from '@/userStore';
+	const handleLogout = async () => {
+		await fetch('/api/logout', {
+			method: 'POST'
+		});
+		$userAccount = undefined;
+		$userSessionId = undefined;
+		goto('/');
 	};
 </script>
 
